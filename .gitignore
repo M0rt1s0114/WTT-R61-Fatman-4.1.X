@@ -1,0 +1,25 @@
+# Private build workspace
+/Release/
+/compat/
+/dist/
+/feature/
+/serveronly/
+/serveronly-cab/
+/test-artifacts/
+/src/_decompiled-original/
+
+# Build output
+**/bin/
+**/obj/
+.vs/
+*.suo
+*.user
+*.pdb
+
+# Packaging and logs
+*.zip
+*.7z
+*.log
+
+# Third-party runtime asset; distributed only as a Release attachment
+**/wtt_shaders.bundle

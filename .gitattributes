@@ -1,0 +1,6 @@
+* text=auto
+*.bundle binary
+*.dll binary
+*.zip binary
+*.png binary
+*.jpg binary

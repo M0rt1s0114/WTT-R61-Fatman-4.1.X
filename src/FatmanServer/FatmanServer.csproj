@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>FatmanServer</AssemblyName>
+    <RootNamespace>FatmanServer</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <SptServerDir Condition="'$(SptServerDir)' == '' and '$(SPT_SERVER_DIR)' != ''">$(SPT_SERVER_DIR)</SptServerDir>
+    <OutputPath>bin\$(Configuration)\$(ProjectName)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <Target Name="ValidateSptServerDir" BeforeTargets="ResolveReferences" Condition="'$(SptServerDir)' == ''">
+    <Error Text="Set SPT_SERVER_DIR or pass -p:SptServerDir=&lt;path-to-SPT-runtime&gt;." />
+  </Target>
+
+  <ItemGroup>
+    <Reference Include="SPTarkov.Server.Core">
+      <HintPath>$(SptServerDir)SPTarkov.Server.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.Common">
+      <HintPath>$(SptServerDir)SPTarkov.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.DI">
+      <HintPath>$(SptServerDir)SPTarkov.DI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.Reflection" Condition="Exists('$(SptServerDir)SPTarkov.Reflection.dll')">
+      <HintPath>$(SptServerDir)SPTarkov.Reflection.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SPTarkov.Server.Assets" Condition="Exists('$(SptServerDir)SPTarkov.Server.Assets.dll')">
+      <HintPath>$(SptServerDir)SPTarkov.Server.Assets.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SemanticVersioning">
+      <HintPath>$(SptServerDir)SemanticVersioning.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
