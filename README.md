@@ -1,6 +1,6 @@
 # WTT-R61 Fatman for SPT 4.1.x
 
-Server-only adaptation of WTT-R61 Fatman 1.1.2 for SPT 4.1.x.
+Server-only adaptation of WTT-R61 Fatman 1.1.3 for SPT 4.1.x.
 
 The original mod was built for SPT 4.0.13. This repository contains the adapted
 server source, an optional client fallback, and the tooling used to rewrite the
@@ -28,6 +28,7 @@ Do not merge the Release ZIP into a server until the server has been stopped.
 - Rewrites the Material Shader PPtr in all six armor bundles.
 - Rewrites the Unity external CAB reference to the supplied Shader bundle.
 - Adds full English descriptions and Simplified Chinese (`ch`) localization.
+- Uses the namespaced shader bundle key `FatmanArmor/wtt_shaders.bundle`.
 - Requires no BepInEx client plugin.
 
 The final package was tested with SPT 4.1.5 and produced:

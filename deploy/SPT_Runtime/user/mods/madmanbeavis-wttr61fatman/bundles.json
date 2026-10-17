@@ -1,13 +1,13 @@
 {
   "manifest": [
     {
-      "key": "commonassets/wtt_shaders.bundle",
+      "key": "FatmanArmor/wtt_shaders.bundle",
       "dependencyKeys": []
     },
     {
       "key": "FatmanArmor/heavy_assult_vest_black.bundle",
       "dependencyKeys": [
-        "commonassets/wtt_shaders.bundle",
+        "FatmanArmor/wtt_shaders.bundle",
         "shaders",
         "cubemaps",
         "assets/commonassets/physics/physicsmaterials.bundle"
@@ -16,7 +16,7 @@
     {
       "key": "FatmanArmor/heavy_assult_vest_digital_green.bundle",
       "dependencyKeys": [
-        "commonassets/wtt_shaders.bundle",
+        "FatmanArmor/wtt_shaders.bundle",
         "shaders",
         "cubemaps",
         "assets/commonassets/physics/physicsmaterials.bundle"
@@ -25,7 +25,7 @@
     {
       "key": "FatmanArmor/heavy_assult_vest_fde.bundle",
       "dependencyKeys": [
-        "commonassets/wtt_shaders.bundle",
+        "FatmanArmor/wtt_shaders.bundle",
         "shaders",
         "cubemaps",
         "assets/commonassets/physics/physicsmaterials.bundle"
@@ -34,7 +34,7 @@
     {
       "key": "FatmanArmor/heavy_assult_vest_killa.bundle",
       "dependencyKeys": [
-        "commonassets/wtt_shaders.bundle",
+        "FatmanArmor/wtt_shaders.bundle",
         "shaders",
         "cubemaps",
         "assets/commonassets/physics/physicsmaterials.bundle"
@@ -43,7 +43,7 @@
     {
       "key": "FatmanArmor/heavy_assult_vest_olive_drab.bundle",
       "dependencyKeys": [
-        "commonassets/wtt_shaders.bundle",
+        "FatmanArmor/wtt_shaders.bundle",
         "shaders",
         "cubemaps",
         "assets/commonassets/physics/physicsmaterials.bundle"
@@ -52,7 +52,7 @@
     {
       "key": "FatmanArmor/heavy_assult_vest_white.bundle",
       "dependencyKeys": [
-        "commonassets/wtt_shaders.bundle",
+        "FatmanArmor/wtt_shaders.bundle",
         "shaders",
         "cubemaps",
         "assets/commonassets/physics/physicsmaterials.bundle"

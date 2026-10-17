@@ -10,7 +10,7 @@ public record ModMetadata : IModMetadata
     public string Name { get; init; } = "WTT-R61 Fatman (SPT 4.1.x)";
     public string Author { get; init; } = "MadManBeavis";
     public List<string>? Contributors { get; init; } = ["M0rt1s0114"];
-    public Version Version { get; init; } = new("1.1.2");
+    public Version Version { get; init; } = new("1.1.3");
     public Range SptVersion { get; init; } = new("~4.1.0");
     public bool HasPrepatcher { get; init; } = false;
     public List<string>? Incompatibilities { get; init; }
