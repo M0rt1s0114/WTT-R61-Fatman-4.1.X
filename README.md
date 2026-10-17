@@ -12,6 +12,12 @@ The ready-to-install server-only package is published as a GitHub Release
 attachment. It contains the Fatman armor models and the compatibility Shader
 bundle.
 
+The Release ZIP uses the SPT 4.1.x layout:
+
+```text
+SPT_Runtime/user/mods/madmanbeavis-wttr61fatman/
+```
+
 Do not merge the Release ZIP into a server until the server has been stopped.
 
 ## What the server-only build does

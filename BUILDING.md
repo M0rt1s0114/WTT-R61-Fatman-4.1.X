@@ -51,5 +51,5 @@ python `
 The unmodified `bundles.json` is tracked under:
 
 ```text
-deploy/SPT/user/mods/madmanbeavis-wttr61fatman/bundles.json
+deploy/SPT_Runtime/user/mods/madmanbeavis-wttr61fatman/bundles.json
 ```

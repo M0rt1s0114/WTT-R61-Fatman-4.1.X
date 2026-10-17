@@ -12,7 +12,7 @@ Original author: `madmanbeavisx`
 The server-only Release attachment includes this compatibility asset:
 
 ```text
-SPT/user/mods/madmanbeavis-wttr61fatman/bundles/commonassets/wtt_shaders.bundle
+SPT_Runtime/user/mods/madmanbeavis-wttr61fatman/bundles/commonassets/wtt_shaders.bundle
 ```
 
 It was copied from a local c11-tn-4 / True North distribution. No separate
