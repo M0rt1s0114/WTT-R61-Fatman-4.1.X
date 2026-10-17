@@ -7,7 +7,7 @@ using SPTarkov.Server.Core.Models.Spt.Tables;
 
 namespace FatmanServer;
 
-[Injectable(InjectionType.Singleton)]
+[Injectable(InjectionType.Singleton, OnLoadOrder.TraderRegistration + 1)]
 public sealed class FatmanTraderRegistration(
     TradersTable tradersTable,
     TemplateTable templateTable,
@@ -56,8 +56,8 @@ public sealed class FatmanTraderRegistration(
                     StackObjectsCount = 6.0,
                     Repairable = new UpdRepairable
                     {
-                        Durability = 1200.0,
-                        MaxDurability = 1200.0,
+                        Durability = FatmanData.ArmorDurability,
+                        MaxDurability = FatmanData.ArmorDurability,
                     },
                 },
             });

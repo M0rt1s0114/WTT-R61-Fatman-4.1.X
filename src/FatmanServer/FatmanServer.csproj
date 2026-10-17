@@ -9,10 +9,10 @@
     <OutputType>Library</OutputType>
     <PlatformTarget>x64</PlatformTarget>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <FileVersion>1.1.1.0</FileVersion>
     <SptServerDir Condition="'$(SptServerDir)' == '' and '$(SPT_SERVER_DIR)' != ''">$(SPT_SERVER_DIR)</SptServerDir>
-    <OutputPath>bin\$(Configuration)\$(ProjectName)\</OutputPath>
+    <OutputPath>bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 

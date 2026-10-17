@@ -1,6 +1,6 @@
 # WTT-R61 Fatman for SPT 4.1.x
 
-Server-only adaptation of WTT-R61 Fatman 1.1.0 for SPT 4.1.x.
+Server-only adaptation of WTT-R61 Fatman 1.1.1 for SPT 4.1.x.
 
 The original mod was built for SPT 4.0.13. This repository contains the adapted
 server source, an optional client fallback, and the tooling used to rewrite the
@@ -88,7 +88,10 @@ The patcher is fail-closed:
 
 - Exactly six armor bundles must be processed.
 - Each bundle must contain exactly two Materials.
+- Every Material must start from the expected old Shader PathID.
+- The Shader FileID must match the real external CAB index.
 - Exactly one external Shader CAB must be rewritten per bundle.
+- The target Shader bundle must contain the expected CAB, PathID, and name.
 - Every output is reopened and verified before success is reported.
 
 ## Release binary contents

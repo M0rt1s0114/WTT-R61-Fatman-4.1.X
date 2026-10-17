@@ -7,7 +7,7 @@ using SPTarkov.Server.Core.Models.Spt.Tables;
 
 namespace FatmanServer;
 
-[Injectable(InjectionType.Singleton)]
+[Injectable(InjectionType.Singleton, OnLoadOrder.TraderRegistration + 1)]
 public sealed class FatmanKillaEquipService(
     BotTable botTable,
     TemplateTable templateTable,

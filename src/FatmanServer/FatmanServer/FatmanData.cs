@@ -16,6 +16,12 @@ internal static class FatmanData
 
 	public const string BossKilla = "bosskilla";
 
+	public const double ArmorDurability = 1200.0;
+
+	public const double SpeedPenaltyPercent = -23.0;
+
+	public const double WeaponErgonomicPenalty = -15.0;
+
 	public static readonly string[] ArmorColliders = new string[20]
 	{
 		"RibcageUp", "Pelvis", "LeftUpperArm", "LeftForearm", "RightUpperArm", "RightForearm", "LeftThigh", "LeftCalf", "RightThigh", "RightCalf",

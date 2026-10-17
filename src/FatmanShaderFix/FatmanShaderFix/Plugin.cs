@@ -12,8 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace FatmanShaderFix;
 
-[BepInPlugin("com.codex.fatmanshaderfix", "Fatman material compatibility fix", "0.9.2")]
-[BepInDependency("com.codex.mfacshaderfixtest", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInPlugin("com.m0rt1s0114.fatmanshaderfix", "Fatman material compatibility fix", "0.9.3")]
 public sealed class Plugin : BaseUnityPlugin
 {
 	private sealed class MaterialSnapshot
@@ -51,23 +50,9 @@ public sealed class Plugin : BaseUnityPlugin
 	{
 		Instance = this;
 		Log = Logger;
-		RemoveKnownConflictingPatch();
 		LoadBundledShaders();
 		HookBundleLoad();
-		Log.LogInfo((object)"Fatman material fix 0.9.2: bundled SMAP shaders; one-shot rebinding; no polling.");
-	}
-
-	private static void RemoveKnownConflictingPatch()
-	{
-		try
-		{
-			Harmony.UnpatchID("com.codex.mfacshaderfixtest");
-			Log.LogInfo((object)"Removed legacy MFAC material patch if present; Fatman uses one material path only.");
-		}
-		catch (Exception ex)
-		{
-			Log.LogWarning((object)("Could not remove legacy MFAC patch: " + ex.Message));
-		}
+		Log.LogInfo((object)"Fatman material fix 0.9.3: bundled SMAP shaders; one-shot rebinding; no polling.");
 	}
 
 	private static void LoadBundledShaders()
@@ -99,56 +84,25 @@ public sealed class Plugin : BaseUnityPlugin
 
 	private void HookBundleLoad()
 	{
-		try
-		{
-			var harmony = new Harmony("com.codex.fatmanshaderfix");
+		var harmony = new Harmony("com.m0rt1s0114.fatmanshaderfix");
 
-			TryPatch(harmony,
-				typeof(EasyBundle),
-				"set_Assets",
-				[typeof(Object[])],
-				postfix: new HarmonyMethod(typeof(Plugin), nameof(OnEasyBundleAssetsLoaded)));
+		TryPatch(harmony,
+			typeof(EasyBundle),
+			"set_Assets",
+			[typeof(Object[])],
+			postfix: new HarmonyMethod(typeof(Plugin), nameof(OnEasyBundleAssetsLoaded)));
 
-			TryPatch(harmony,
-				typeof(AssetsManager.LoadAssetOperation),
-				"LoadContent",
-				[typeof(AssetsManager), typeof(string), typeof(Object)],
-				postfix: new HarmonyMethod(typeof(Plugin), nameof(OnSingleAssetLoaded)));
+		TryPatch(harmony,
+			typeof(AssetsManager.LoadAssetOperation),
+			"LoadContent",
+			[typeof(AssetsManager), typeof(string), typeof(Object)],
+			postfix: new HarmonyMethod(typeof(Plugin), nameof(OnSingleAssetLoaded)));
 
-			TryPatch(harmony,
-				typeof(AssetsManager.LoadAllAssetOperation),
-				"LoadContent",
-				[typeof(AssetsManager), typeof(AssetBundle), typeof(Object[])],
-				postfix: new HarmonyMethod(typeof(Plugin), nameof(OnAllAssetsLoaded)));
-
-			TryPatch(harmony,
-				typeof(AssetsManager),
-				nameof(AssetsManager.LoadAssetAsync),
-				[typeof(string), typeof(string)],
-				prefix: new HarmonyMethod(typeof(Plugin), nameof(OnLoadAssetRequested)));
-
-			TryPatch(harmony,
-				typeof(AssetsManager),
-				nameof(AssetsManager.LoadMainAssetAsync),
-				[typeof(string)],
-				prefix: new HarmonyMethod(typeof(Plugin), nameof(OnLoadMainAssetRequested)));
-
-			TryPatch(harmony,
-				typeof(AssetsManager),
-				nameof(AssetsManager.LoadAssetsAsync),
-				[typeof(string)],
-				prefix: new HarmonyMethod(typeof(Plugin), nameof(OnLoadAssetsRequested)));
-
-			TryPatch(harmony,
-				typeof(AssetsManager),
-				nameof(AssetsManager.LoadBundlesAsync),
-				[typeof(string[])],
-				prefix: new HarmonyMethod(typeof(Plugin), nameof(OnLoadBundlesRequested)));
-		}
-		catch (Exception ex)
-		{
-			Log.LogWarning((object)("Hook failed: " + ex.Message));
-		}
+		TryPatch(harmony,
+			typeof(AssetsManager.LoadAllAssetOperation),
+			"LoadContent",
+			[typeof(AssetsManager), typeof(AssetBundle), typeof(Object[])],
+			postfix: new HarmonyMethod(typeof(Plugin), nameof(OnAllAssetsLoaded)));
 	}
 
 	private static void OnEasyBundleAssetsLoaded(EasyBundle __instance, Object[] value)
@@ -176,8 +130,15 @@ public sealed class Plugin : BaseUnityPlugin
 			return;
 		}
 
-		harmony.Patch(method, prefix, postfix);
-		Log.LogInfo((object)$"Hooked {type.FullName}.{methodName}");
+		try
+		{
+			harmony.Patch(method, prefix, postfix);
+			Log.LogInfo((object)$"Hooked {type.FullName}.{methodName}");
+		}
+		catch (Exception ex)
+		{
+			Log.LogWarning((object)$"Hook failed for {type.FullName}.{methodName}: {ex.Message}");
+		}
 	}
 
 	private static bool IsRelevantBundle(string value, out string lower)
@@ -186,46 +147,6 @@ public sealed class Plugin : BaseUnityPlugin
 		return lower.Contains("wtt_shaders")
 			|| lower.Contains("fatman")
 			|| lower.Contains("heavy_assult");
-	}
-
-	private static void OnLoadAssetRequested(string bundleName, string assetName)
-	{
-		if (IsRelevantBundle(bundleName, out _))
-		{
-			Log.LogInfo((object)$"[Fatman] asset request: bundle={bundleName} asset={assetName}");
-		}
-	}
-
-	private static void OnLoadMainAssetRequested(string bundleName)
-	{
-		if (IsRelevantBundle(bundleName, out _))
-		{
-			Log.LogInfo((object)$"[Fatman] main-asset request: bundle={bundleName}");
-		}
-	}
-
-	private static void OnLoadAssetsRequested(string bundleName)
-	{
-		if (IsRelevantBundle(bundleName, out _))
-		{
-			Log.LogInfo((object)$"[Fatman] all-assets request: bundle={bundleName}");
-		}
-	}
-
-	private static void OnLoadBundlesRequested(string[] bundleNames)
-	{
-		if (bundleNames == null)
-		{
-			return;
-		}
-
-		foreach (var bundleName in bundleNames)
-		{
-			if (IsRelevantBundle(bundleName, out _))
-			{
-				Log.LogInfo((object)$"[Fatman] bundle-list request includes: {bundleName}");
-			}
-		}
 	}
 
 	private static void OnSingleAssetLoaded(AssetsManager.LoadAssetOperation __instance, Object asset)
@@ -373,7 +294,6 @@ public sealed class Plugin : BaseUnityPlugin
 			{
 				continue;
 			}
-			FixBones(val4);
 			Renderer[] componentsInChildren = val4.GetComponentsInChildren<Renderer>(true);
 			for (int j = 0; j < componentsInChildren.Length; j++)
 			{
@@ -494,15 +414,4 @@ public sealed class Plugin : BaseUnityPlugin
 		}
 	}
 
-	private static void FixBones(GameObject go)
-	{
-		Transform[] componentsInChildren = go.GetComponentsInChildren<Transform>(true);
-		foreach (Transform val in componentsInChildren)
-		{
-			if (((Object)val).name == "mod_equipment_000.001")
-			{
-				((Object)val).name = "mod_equipment";
-			}
-		}
-	}
 }

@@ -38,8 +38,18 @@ per bundle and two Shader PPtrs per bundle, then reopens every output to verify
 the result. Python 3 with `UnityPy` is required.
 
 ```powershell
+python -m pip install -r .\requirements-bundle-tools.txt
+
 python `
   .\tools\patch_fatman_materials.py `
   .\Release\SPT\user\mods\madmanbeavis-wttr61fatman\bundles\FatmanArmor `
-  .\work\FatmanArmor --expect-bundles 6
+  .\work\FatmanArmor `
+  .\work\wtt_shaders.bundle `
+  --expect-bundles 6
+```
+
+The unmodified `bundles.json` is tracked under:
+
+```text
+deploy/SPT/user/mods/madmanbeavis-wttr61fatman/bundles.json
 ```
