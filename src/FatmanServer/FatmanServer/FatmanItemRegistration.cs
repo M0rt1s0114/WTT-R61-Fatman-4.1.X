@@ -24,9 +24,19 @@ public sealed class FatmanItemRegistration(
             return Task.CompletedTask;
         }
 
+        var missingLocalizations = FatmanData.Items
+            .Where(item => !FatmanData.Localizations.ContainsKey(item.Tpl))
+            .Select(item => item.Tpl)
+            .ToArray();
+        if (missingLocalizations.Length > 0)
+        {
+            logger.Error($"[Fatman] missing localization data for: {string.Join(", ", missingLocalizations)}");
+            return Task.CompletedTask;
+        }
+
         var registered = 0;
 
-        foreach (var (tpl, internalName, bundle, enName, _, discardLimit, sellOnRagfair, description) in FatmanData.Items)
+        foreach (var (tpl, internalName, bundle, enName, _, discardLimit, sellOnRagfair, _) in FatmanData.Items)
         {
             try
             {
@@ -36,6 +46,7 @@ public sealed class FatmanItemRegistration(
                     continue;
                 }
 
+                var localization = FatmanData.Localizations[tpl];
                 var result = customItemService.CreateItemFromClone(new NewItemFromCloneDetails
                 {
                     NewId = new MongoId(tpl),
@@ -51,7 +62,7 @@ public sealed class FatmanItemRegistration(
                     {
                         Name = internalName,
                         ShortName = internalName,
-                        Description = internalName,
+                        Description = localization.EnglishDescription,
                         ExaminedByDefault = true,
                         Prefab = new Prefab
                         {
@@ -82,7 +93,13 @@ public sealed class FatmanItemRegistration(
                         {
                             Name = enName,
                             ShortName = "Fatman",
-                            Description = description,
+                            Description = localization.EnglishDescription,
+                        },
+                        ["ch"] = new()
+                        {
+                            Name = localization.ChineseName,
+                            ShortName = "Fatman",
+                            Description = localization.ChineseDescription,
                         },
                     },
                 });
